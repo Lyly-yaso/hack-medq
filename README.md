@@ -1,7 +1,7 @@
 # hack-medq
-# 🏥 AI Smart Health Triage System
+#  AI Smart Health Triage System
 
-## 📌 Overview
+## Overview
 This project is an AI-based healthcare system that analyzes patient symptoms and predicts possible diseases.
 
 The system is built using:
@@ -11,7 +11,7 @@ The system is built using:
 
 ---
 
-## 🧠 Model (Rule-Based)
+## Model (Rule-Based)
 
 The model is implemented using decision rules extracted from a Weka J48 decision tree.
 
@@ -22,11 +22,11 @@ def predict(symptoms_dict):
 ```
 
 Full implementation available in:  
-👉 model.py
+ model.py
 
 ---
 
-## ⚙️ Model Details
+## Model Details
 
 - No training required
 - Based on dataset features
@@ -45,11 +45,11 @@ ALL_FEATURES = [
 ]
 ```
 
-📄 Source: :contentReference[oaicite:0]{index=0}
+ Source: :contentReference[oaicite:0]{index=0}
 
 ---
 
-## 📊 Model Evaluation
+## Model Evaluation
 
 The model is evaluated using the dataset:
 
@@ -66,12 +66,12 @@ Total samples: XXXX
 
 Evaluation script:
 
-👉 evaluate.py  
-📄 Source: :contentReference[oaicite:1]{index=1}
+ evaluate.py  
+ Source: :contentReference[oaicite:1]{index=1}
 
 ---
 
-## 📱 Frontend (Flutter Dashboard)
+##  Frontend (Flutter Dashboard)
 
 The user interface allows users to:
 - Select symptoms
@@ -89,12 +89,12 @@ ElevatedButton(
 
 Frontend file:
 
-👉 frontend.dart  
-📄 Source: :contentReference[oaicite:2]{index=2}
+ frontend.dart  
+ Source: :contentReference[oaicite:2]{index=2}
 
 ---
 
-## 🔄 System Workflow
+##  System Workflow
 
 1. User selects symptoms in Flutter app  
 2. Data is sent to backend / model  
@@ -104,7 +104,7 @@ Frontend file:
 
 ---
 
-## ⚠️ Disclaimer
+##  Disclaimer
 This system is for educational and demonstration purposes only.  
 It should not be used as a substitute for professional medical diagnosis.
 
