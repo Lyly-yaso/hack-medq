@@ -1,0 +1,1707 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const RafeeqApp());
+}
+
+class RafeeqApp extends StatelessWidget {
+  const RafeeqApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Rafeeq Al-Sihha',
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF0B1220),
+        fontFamily: 'Tajawal',
+        colorScheme: const ColorScheme.dark(
+          primary: Color(0xFF1F8A70),
+          secondary: Color(0xFF86EFAC),
+          surface: Color(0xFF121A2B),
+        ),
+      ),
+      home: const SymptomsPage(),
+    );
+  }
+}
+
+class SymptomItem {
+  final String keyName;
+  final String en;
+  final String ar;
+
+  const SymptomItem({
+    required this.keyName,
+    required this.en,
+    required this.ar,
+  });
+}
+
+class SymptomCategory {
+  final String id;
+  final String ar;
+  final String en;
+  final List<String>? keys;
+
+  const SymptomCategory({
+    required this.id,
+    required this.ar,
+    required this.en,
+    this.keys,
+  });
+}
+
+const List<SymptomItem> symptoms = [
+  SymptomItem(keyName: 'itching', en: 'Itching', ar: 'حكة'),
+  SymptomItem(keyName: 'skin_rash', en: 'Skin Rash', ar: 'طفح جلدي'),
+  SymptomItem(
+    keyName: 'nodal_skin_eruptions',
+    en: 'Nodal Skin Eruptions',
+    ar: 'بثور جلدية',
+  ),
+  SymptomItem(
+    keyName: 'continuous_sneezing',
+    en: 'Continuous Sneezing',
+    ar: 'عطس مستمر',
+  ),
+  SymptomItem(keyName: 'shivering', en: 'Shivering', ar: 'رجفة'),
+  SymptomItem(keyName: 'chills', en: 'Chills', ar: 'قشعريرة'),
+  SymptomItem(keyName: 'joint_pain', en: 'Joint Pain', ar: 'ألم المفاصل'),
+  SymptomItem(keyName: 'stomach_pain', en: 'Stomach Pain', ar: 'ألم المعدة'),
+  SymptomItem(keyName: 'acidity', en: 'Acidity', ar: 'حموضة'),
+  SymptomItem(
+    keyName: 'ulcers_on_tongue',
+    en: 'Ulcers On Tongue',
+    ar: 'تقرحات اللسان',
+  ),
+  SymptomItem(
+    keyName: 'muscle_wasting',
+    en: 'Muscle Wasting',
+    ar: 'ضمور العضلات',
+  ),
+  SymptomItem(keyName: 'vomiting', en: 'Vomiting', ar: 'قيء'),
+  SymptomItem(
+    keyName: 'burning_micturition',
+    en: 'Burning Micturition',
+    ar: 'حرقة البول',
+  ),
+  SymptomItem(
+    keyName: 'spotting_urination',
+    en: 'Spotting Urination',
+    ar: 'بقع في البول',
+  ),
+  SymptomItem(keyName: 'fatigue', en: 'Fatigue', ar: 'إرهاق'),
+  SymptomItem(keyName: 'weight_gain', en: 'Weight Gain', ar: 'زيادة الوزن'),
+  SymptomItem(keyName: 'anxiety', en: 'Anxiety', ar: 'قلق'),
+  SymptomItem(
+    keyName: 'cold_hands_and_feets',
+    en: 'Cold Hands And Feet',
+    ar: 'برودة اليدين والقدمين',
+  ),
+  SymptomItem(keyName: 'mood_swings', en: 'Mood Swings', ar: 'تقلب المزاج'),
+  SymptomItem(keyName: 'weight_loss', en: 'Weight Loss', ar: 'فقدان الوزن'),
+  SymptomItem(keyName: 'restlessness', en: 'Restlessness', ar: 'توتر'),
+  SymptomItem(keyName: 'lethargy', en: 'Lethargy', ar: 'خمول'),
+  SymptomItem(
+    keyName: 'patches_in_throat',
+    en: 'Patches In Throat',
+    ar: 'بقع في الحلق',
+  ),
+  SymptomItem(
+    keyName: 'irregular_sugar_level',
+    en: 'Irregular Sugar Level',
+    ar: 'عدم انتظام السكر',
+  ),
+  SymptomItem(keyName: 'cough', en: 'Cough', ar: 'سعال'),
+  SymptomItem(keyName: 'high_fever', en: 'High Fever', ar: 'حمى شديدة'),
+  SymptomItem(keyName: 'sunken_eyes', en: 'Sunken Eyes', ar: 'غؤور العينين'),
+  SymptomItem(
+    keyName: 'breathlessness',
+    en: 'Breathlessness',
+    ar: 'ضيق التنفس',
+  ),
+  SymptomItem(keyName: 'sweating', en: 'Sweating', ar: 'تعرق'),
+  SymptomItem(keyName: 'dehydration', en: 'Dehydration', ar: 'جفاف'),
+  SymptomItem(keyName: 'indigestion', en: 'Indigestion', ar: 'عسر هضم'),
+  SymptomItem(keyName: 'headache', en: 'Headache', ar: 'صداع'),
+  SymptomItem(
+    keyName: 'yellowish_skin',
+    en: 'Yellowish Skin',
+    ar: 'اصفرار الجلد',
+  ),
+  SymptomItem(keyName: 'dark_urine', en: 'Dark Urine', ar: 'بول داكن'),
+  SymptomItem(keyName: 'nausea', en: 'Nausea', ar: 'غثيان'),
+  SymptomItem(
+    keyName: 'loss_of_appetite',
+    en: 'Loss Of Appetite',
+    ar: 'فقدان الشهية',
+  ),
+  SymptomItem(
+    keyName: 'pain_behind_the_eyes',
+    en: 'Pain Behind The Eyes',
+    ar: 'ألم خلف العينين',
+  ),
+  SymptomItem(keyName: 'back_pain', en: 'Back Pain', ar: 'ألم الظهر'),
+  SymptomItem(keyName: 'constipation', en: 'Constipation', ar: 'إمساك'),
+  SymptomItem(keyName: 'abdominal_pain', en: 'Abdominal Pain', ar: 'ألم البطن'),
+  SymptomItem(keyName: 'diarrhoea', en: 'Diarrhoea', ar: 'إسهال'),
+  SymptomItem(keyName: 'mild_fever', en: 'Mild Fever', ar: 'حمى خفيفة'),
+  SymptomItem(keyName: 'yellow_urine', en: 'Yellow Urine', ar: 'بول أصفر'),
+  SymptomItem(
+    keyName: 'yellowing_of_eyes',
+    en: 'Yellowing Of Eyes',
+    ar: 'اصفرار العينين',
+  ),
+  SymptomItem(
+    keyName: 'acute_liver_failure',
+    en: 'Acute Liver Failure',
+    ar: 'فشل كبدي حاد',
+  ),
+  SymptomItem(
+    keyName: 'fluid_overload',
+    en: 'Fluid Overload',
+    ar: 'احتباس السوائل',
+  ),
+  SymptomItem(
+    keyName: 'swelling_of_stomach',
+    en: 'Swelling Of Stomach',
+    ar: 'انتفاخ البطن',
+  ),
+  SymptomItem(
+    keyName: 'swelled_lymph_nodes',
+    en: 'Swelled Lymph Nodes',
+    ar: 'تضخم الغدد الليمفاوية',
+  ),
+  SymptomItem(keyName: 'malaise', en: 'Malaise', ar: 'شعور عام بالتعب'),
+  SymptomItem(
+    keyName: 'blurred_and_distorted_vision',
+    en: 'Blurred Vision',
+    ar: 'رؤية ضبابية',
+  ),
+  SymptomItem(keyName: 'phlegm', en: 'Phlegm', ar: 'بلغم'),
+  SymptomItem(
+    keyName: 'throat_irritation',
+    en: 'Throat Irritation',
+    ar: 'تهيج الحلق',
+  ),
+  SymptomItem(
+    keyName: 'redness_of_eyes',
+    en: 'Redness Of Eyes',
+    ar: 'احمرار العينين',
+  ),
+  SymptomItem(
+    keyName: 'sinus_pressure',
+    en: 'Sinus Pressure',
+    ar: 'ضغط الجيوب الأنفية',
+  ),
+  SymptomItem(keyName: 'runny_nose', en: 'Runny Nose', ar: 'سيلان الأنف'),
+  SymptomItem(keyName: 'congestion', en: 'Congestion', ar: 'احتقان'),
+  SymptomItem(keyName: 'chest_pain', en: 'Chest Pain', ar: 'ألم الصدر'),
+  SymptomItem(
+    keyName: 'weakness_in_limbs',
+    en: 'Weakness In Limbs',
+    ar: 'ضعف الأطراف',
+  ),
+  SymptomItem(
+    keyName: 'fast_heart_rate',
+    en: 'Fast Heart Rate',
+    ar: 'تسارع القلب',
+  ),
+  SymptomItem(
+    keyName: 'pain_during_bowel_movements',
+    en: 'Pain During Bowel Movements',
+    ar: 'ألم عند التبرز',
+  ),
+  SymptomItem(
+    keyName: 'pain_in_anal_region',
+    en: 'Pain In Anal Region',
+    ar: 'ألم في المنطقة الشرجية',
+  ),
+  SymptomItem(keyName: 'bloody_stool', en: 'Bloody Stool', ar: 'دم في البراز'),
+  SymptomItem(
+    keyName: 'irritation_in_anus',
+    en: 'Irritation In Anus',
+    ar: 'تهيج الشرج',
+  ),
+  SymptomItem(keyName: 'neck_pain', en: 'Neck Pain', ar: 'ألم الرقبة'),
+  SymptomItem(keyName: 'dizziness', en: 'Dizziness', ar: 'دوخة'),
+  SymptomItem(keyName: 'cramps', en: 'Cramps', ar: 'تشنجات'),
+  SymptomItem(keyName: 'bruising', en: 'Bruising', ar: 'كدمات'),
+  SymptomItem(keyName: 'obesity', en: 'Obesity', ar: 'سمنة'),
+  SymptomItem(keyName: 'swollen_legs', en: 'Swollen Legs', ar: 'تورم الساقين'),
+  SymptomItem(
+    keyName: 'swollen_blood_vessels',
+    en: 'Swollen Blood Vessels',
+    ar: 'تمدد الأوعية الدموية',
+  ),
+  SymptomItem(
+    keyName: 'puffy_face_and_eyes',
+    en: 'Puffy Face And Eyes',
+    ar: 'انتفاخ الوجه والعينين',
+  ),
+  SymptomItem(
+    keyName: 'enlarged_thyroid',
+    en: 'Enlarged Thyroid',
+    ar: 'تضخم الغدة الدرقية',
+  ),
+  SymptomItem(
+    keyName: 'brittle_nails',
+    en: 'Brittle Nails',
+    ar: 'هشاشة الأظافر',
+  ),
+  SymptomItem(
+    keyName: 'swollen_extremeties',
+    en: 'Swollen Extremities',
+    ar: 'تورم الأطراف',
+  ),
+  SymptomItem(
+    keyName: 'excessive_hunger',
+    en: 'Excessive Hunger',
+    ar: 'جوع مفرط',
+  ),
+  SymptomItem(
+    keyName: 'extra_marital_contacts',
+    en: 'Extra Marital Contacts',
+    ar: 'تماس خارج الزواج',
+  ),
+  SymptomItem(
+    keyName: 'drying_and_tingling_lips',
+    en: 'Drying And Tingling Lips',
+    ar: 'جفاف الشفاه وخزها',
+  ),
+  SymptomItem(
+    keyName: 'slurred_speech',
+    en: 'Slurred Speech',
+    ar: 'تعذر الكلام',
+  ),
+  SymptomItem(keyName: 'knee_pain', en: 'Knee Pain', ar: 'ألم الركبة'),
+  SymptomItem(
+    keyName: 'hip_joint_pain',
+    en: 'Hip Joint Pain',
+    ar: 'ألم مفصل الورك',
+  ),
+  SymptomItem(
+    keyName: 'muscle_weakness',
+    en: 'Muscle Weakness',
+    ar: 'ضعف العضلات',
+  ),
+  SymptomItem(keyName: 'stiff_neck', en: 'Stiff Neck', ar: 'تيبس الرقبة'),
+  SymptomItem(
+    keyName: 'swelling_joints',
+    en: 'Swelling Joints',
+    ar: 'تورم المفاصل',
+  ),
+  SymptomItem(
+    keyName: 'movement_stiffness',
+    en: 'Movement Stiffness',
+    ar: 'تصلب الحركة',
+  ),
+  SymptomItem(
+    keyName: 'spinning_movements',
+    en: 'Spinning Movements',
+    ar: 'دوار',
+  ),
+  SymptomItem(
+    keyName: 'loss_of_balance',
+    en: 'Loss Of Balance',
+    ar: 'فقدان التوازن',
+  ),
+  SymptomItem(keyName: 'unsteadiness', en: 'Unsteadiness', ar: 'عدم الاستقرار'),
+  SymptomItem(
+    keyName: 'weakness_of_one_body_side',
+    en: 'Weakness Of One Body Side',
+    ar: 'ضعف جانب من الجسم',
+  ),
+  SymptomItem(keyName: 'loss_of_smell', en: 'Loss Of Smell', ar: 'فقدان الشم'),
+  SymptomItem(
+    keyName: 'bladder_discomfort',
+    en: 'Bladder Discomfort',
+    ar: 'انزعاج المثانة',
+  ),
+  SymptomItem(
+    keyName: 'foul_smell_of_urine',
+    en: 'Foul Smell Of Urine',
+    ar: 'رائحة كريهة للبول',
+  ),
+  SymptomItem(
+    keyName: 'continuous_feel_of_urine',
+    en: 'Continuous Feel Of Urine',
+    ar: 'شعور مستمر بالتبول',
+  ),
+  SymptomItem(
+    keyName: 'passage_of_gases',
+    en: 'Passage Of Gases',
+    ar: 'خروج غازات',
+  ),
+  SymptomItem(
+    keyName: 'internal_itching',
+    en: 'Internal Itching',
+    ar: 'حكة داخلية',
+  ),
+  SymptomItem(keyName: 'toxic_look', en: 'Toxic Look', ar: 'مظهر مريض'),
+  SymptomItem(keyName: 'depression', en: 'Depression', ar: 'اكتئاب'),
+  SymptomItem(keyName: 'irritability', en: 'Irritability', ar: 'انفعال'),
+  SymptomItem(keyName: 'muscle_pain', en: 'Muscle Pain', ar: 'ألم العضلات'),
+  SymptomItem(
+    keyName: 'altered_sensorium',
+    en: 'Altered Sensorium',
+    ar: 'اضطراب الوعي',
+  ),
+  SymptomItem(
+    keyName: 'red_spots_over_body',
+    en: 'Red Spots Over Body',
+    ar: 'بقع حمراء على الجسم',
+  ),
+  SymptomItem(keyName: 'belly_pain', en: 'Belly Pain', ar: 'ألم البطن السفلي'),
+  SymptomItem(
+    keyName: 'abnormal_menstruation',
+    en: 'Abnormal Menstruation',
+    ar: 'اضطراب الدورة الشهرية',
+  ),
+  SymptomItem(
+    keyName: 'dischromic_patches',
+    en: 'Dischromic Patches',
+    ar: 'بقع تلونية',
+  ),
+  SymptomItem(
+    keyName: 'watering_from_eyes',
+    en: 'Watering From Eyes',
+    ar: 'دموع مستمرة',
+  ),
+  SymptomItem(
+    keyName: 'increased_appetite',
+    en: 'Increased Appetite',
+    ar: 'زيادة الشهية',
+  ),
+  SymptomItem(keyName: 'polyuria', en: 'Polyuria', ar: 'كثرة التبول'),
+  SymptomItem(
+    keyName: 'family_history',
+    en: 'Family History',
+    ar: 'تاريخ عائلي',
+  ),
+  SymptomItem(keyName: 'mucoid_sputum', en: 'Mucoid Sputum', ar: 'بلغم مخاطي'),
+  SymptomItem(keyName: 'rusty_sputum', en: 'Rusty Sputum', ar: 'بلغم صدئ'),
+  SymptomItem(
+    keyName: 'lack_of_concentration',
+    en: 'Lack Of Concentration',
+    ar: 'ضعف التركيز',
+  ),
+  SymptomItem(
+    keyName: 'visual_disturbances',
+    en: 'Visual Disturbances',
+    ar: 'اضطرابات بصرية',
+  ),
+  SymptomItem(
+    keyName: 'receiving_blood_transfusion',
+    en: 'Receiving Blood Transfusion',
+    ar: 'تلقي نقل دم',
+  ),
+  SymptomItem(
+    keyName: 'receiving_unsterile_injections',
+    en: 'Receiving Unsterile Injections',
+    ar: 'حقن غير معقمة',
+  ),
+  SymptomItem(keyName: 'coma', en: 'Coma', ar: 'غيبوبة'),
+  SymptomItem(
+    keyName: 'stomach_bleeding',
+    en: 'Stomach Bleeding',
+    ar: 'نزيف المعدة',
+  ),
+  SymptomItem(
+    keyName: 'distention_of_abdomen',
+    en: 'Distention Of Abdomen',
+    ar: 'انتفاخ البطن',
+  ),
+  SymptomItem(
+    keyName: 'history_of_alcohol_consumption',
+    en: 'History Of Alcohol Consumption',
+    ar: 'تاريخ شرب الكحول',
+  ),
+  SymptomItem(
+    keyName: 'blood_in_sputum',
+    en: 'Blood In Sputum',
+    ar: 'دم في البلغم',
+  ),
+  SymptomItem(
+    keyName: 'prominent_veins_on_calf',
+    en: 'Prominent Veins On Calf',
+    ar: 'بروز أوردة الساق',
+  ),
+  SymptomItem(keyName: 'palpitations', en: 'Palpitations', ar: 'خفقان القلب'),
+  SymptomItem(
+    keyName: 'painful_walking',
+    en: 'Painful Walking',
+    ar: 'ألم عند المشي',
+  ),
+  SymptomItem(
+    keyName: 'pus_filled_pimples',
+    en: 'Pus Filled Pimples',
+    ar: 'حبوب بها صديد',
+  ),
+  SymptomItem(keyName: 'blackheads', en: 'Blackheads', ar: 'رؤوس سوداء'),
+  SymptomItem(keyName: 'scurring', en: 'Scurring', ar: 'تقشر'),
+  SymptomItem(keyName: 'skin_peeling', en: 'Skin Peeling', ar: 'تقشر الجلد'),
+  SymptomItem(
+    keyName: 'silver_like_dusting',
+    en: 'Silver Like Dusting',
+    ar: 'ترسبات فضية',
+  ),
+  SymptomItem(
+    keyName: 'small_dents_in_nails',
+    en: 'Small Dents In Nails',
+    ar: 'نقر صغيرة في الأظافر',
+  ),
+  SymptomItem(
+    keyName: 'inflammatory_nails',
+    en: 'Inflammatory Nails',
+    ar: 'التهاب الأظافر',
+  ),
+  SymptomItem(keyName: 'blister', en: 'Blister', ar: 'بثور'),
+  SymptomItem(
+    keyName: 'red_sore_around_nose',
+    en: 'Red Sore Around Nose',
+    ar: 'احمرار حول الأنف',
+  ),
+  SymptomItem(
+    keyName: 'yellow_crust_ooze',
+    en: 'Yellow Crust Ooze',
+    ar: 'إفرازات صفراء قشرية',
+  ),
+];
+
+const List<SymptomCategory> categories = [
+  SymptomCategory(id: 'all', ar: 'الكل', en: 'All'),
+  SymptomCategory(
+    id: 'pain',
+    ar: 'الألم',
+    en: 'Pain',
+    keys: [
+      'joint_pain',
+      'stomach_pain',
+      'back_pain',
+      'abdominal_pain',
+      'chest_pain',
+      'neck_pain',
+      'knee_pain',
+      'hip_joint_pain',
+      'muscle_pain',
+      'headache',
+      'belly_pain',
+      'pain_behind_the_eyes',
+      'painful_walking',
+      'pain_during_bowel_movements',
+      'pain_in_anal_region',
+    ],
+  ),
+  SymptomCategory(
+    id: 'skin',
+    ar: 'الجلد',
+    en: 'Skin',
+    keys: [
+      'itching',
+      'skin_rash',
+      'nodal_skin_eruptions',
+      'yellowish_skin',
+      'bruising',
+      'pus_filled_pimples',
+      'blackheads',
+      'skin_peeling',
+      'blister',
+      'red_sore_around_nose',
+      'yellow_crust_ooze',
+      'red_spots_over_body',
+      'dischromic_patches',
+      'silver_like_dusting',
+      'scurring',
+    ],
+  ),
+  SymptomCategory(
+    id: 'digestive',
+    ar: 'الهضم',
+    en: 'Digestive',
+    keys: [
+      'vomiting',
+      'nausea',
+      'indigestion',
+      'constipation',
+      'diarrhoea',
+      'acidity',
+      'loss_of_appetite',
+      'stomach_bleeding',
+      'bloody_stool',
+      'passage_of_gases',
+      'distention_of_abdomen',
+      'swelling_of_stomach',
+    ],
+  ),
+  SymptomCategory(
+    id: 'respiratory',
+    ar: 'التنفس',
+    en: 'Respiratory',
+    keys: [
+      'cough',
+      'breathlessness',
+      'runny_nose',
+      'congestion',
+      'throat_irritation',
+      'sinus_pressure',
+      'phlegm',
+      'mucoid_sputum',
+      'rusty_sputum',
+      'blood_in_sputum',
+    ],
+  ),
+  SymptomCategory(
+    id: 'general',
+    ar: 'عام',
+    en: 'General',
+    keys: [
+      'fatigue',
+      'high_fever',
+      'mild_fever',
+      'chills',
+      'shivering',
+      'sweating',
+      'dehydration',
+      'weight_loss',
+      'weight_gain',
+      'malaise',
+      'lethargy',
+      'restlessness',
+      'anxiety',
+      'depression',
+      'irritability',
+    ],
+  ),
+];
+
+class AppPalette {
+  static const bg = Color(0xFF0B1220);
+  static const card = Color(0xFF121A2B);
+  static const card2 = Color(0xFF162033);
+  static const border = Color(0xFF24324A);
+  static const text = Color(0xFFE6EDF7);
+  static const subtext = Color(0xFF9AA8BC);
+  static const green = Color(0xFF1F8A70);
+  static const greenSoft = Color(0xFF86EFAC);
+  static const blue = Color(0xFF60A5FA);
+}
+
+class SymptomsPage extends StatefulWidget {
+  const SymptomsPage({super.key});
+
+  @override
+  State<SymptomsPage> createState() => _SymptomsPageState();
+}
+
+class _SymptomsPageState extends State<SymptomsPage> {
+  final Set<String> selected = <String>{};
+  final TextEditingController searchController = TextEditingController();
+  String activeCategory = 'all';
+  bool isArabic = true;
+  bool isLoading = false;
+
+  String get appTitle => isArabic ? 'رفيق الصحة' : 'Rafeeq Al-Sihha';
+  String get appSubtitle => isArabic
+      ? 'مساعد صحي ذكي لتحليل الأعراض'
+      : 'AI Health Companion for Symptom Analysis';
+
+  List<SymptomItem> get filteredSymptoms {
+    List<SymptomItem> list = symptoms;
+
+    if (activeCategory != 'all') {
+      final category = categories.firstWhere((c) => c.id == activeCategory);
+      final keys = category.keys ?? [];
+      list = list.where((symptom) => keys.contains(symptom.keyName)).toList();
+    }
+
+    final query = searchController.text.trim().toLowerCase();
+    if (query.isNotEmpty) {
+      list = list.where((symptom) {
+        final label = isArabic ? symptom.ar : symptom.en;
+        return label.toLowerCase().contains(query) ||
+            symptom.keyName.toLowerCase().contains(query);
+      }).toList();
+    }
+
+    return list;
+  }
+
+  Future<Map<String, dynamic>> mockAnalyzeSymptoms() async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    final selectedList = selected.toList();
+    final active = selected.toSet();
+
+    if (active.contains('polyuria') ||
+        active.contains('excessive_hunger') ||
+        active.contains('fatigue') ||
+        active.contains('weight_loss') ||
+        active.contains('blurred_and_distorted_vision')) {
+      return {
+        'disease': isArabic ? 'السكري' : 'Diabetes',
+        'confidence': 0.91,
+        'top_symptoms': selectedList.take(5).toList(),
+        'risk': 'High',
+        'diet_recommendations': isArabic
+            ? [
+                'تجنب السكريات المضافة والمشروبات الغازية.',
+                'أكثر من الخضار والألياف في الوجبات.',
+                'قلل الخبز الأبيض والأرز الأبيض.',
+              ]
+            : [
+                'Avoid added sugars and soft drinks.',
+                'Increase vegetables and fiber in meals.',
+                'Reduce white bread and white rice.',
+              ],
+        'activity_recommendations': isArabic
+            ? ['امشِ 30 دقيقة يومياً.', 'مارس نشاطاً خفيفاً بانتظام.']
+            : ['Walk 30 minutes daily.', 'Do light regular exercise.'],
+        'alert': isArabic
+            ? 'راقب مستوى السكر بانتظام وراجع الطبيب للمتابعة.'
+            : 'Monitor blood sugar regularly and consult a doctor for follow-up.',
+      };
+    }
+
+    if (active.contains('headache') ||
+        active.contains('dizziness') ||
+        active.contains('chest_pain') ||
+        active.contains('palpitations')) {
+      return {
+        'disease': isArabic ? 'ارتفاع ضغط الدم' : 'Hypertension',
+        'confidence': 0.88,
+        'top_symptoms': selectedList.take(5).toList(),
+        'risk': 'High',
+        'diet_recommendations': isArabic
+            ? [
+                'قلل الملح في الطعام.',
+                'تجنب الأطعمة المصنعة والمعلبة.',
+                'أكثر من الأطعمة الغنية بالبوتاسيوم.',
+              ]
+            : [
+                'Reduce salt intake.',
+                'Avoid processed and canned foods.',
+                'Eat more potassium-rich foods.',
+              ],
+        'activity_recommendations': isArabic
+            ? [
+                'امشِ يومياً لمدة 30 دقيقة.',
+                'جرّب تمارين الاسترخاء والتمدد الخفيف.',
+              ]
+            : [
+                'Walk daily for 30 minutes.',
+                'Try relaxation exercises and light stretching.',
+              ],
+        'alert': isArabic
+            ? 'راقب ضغط الدم بانتظام واطلب استشارة طبية إذا استمرت الأعراض.'
+            : 'Monitor blood pressure regularly and seek medical advice if symptoms continue.',
+      };
+    }
+
+    if (active.contains('acidity') ||
+        active.contains('indigestion') ||
+        active.contains('vomiting')) {
+      return {
+        'disease': isArabic ? 'الارتجاع المعدي المريئي' : 'GERD',
+        'confidence': 0.84,
+        'top_symptoms': selectedList.take(5).toList(),
+        'risk': 'Medium',
+        'diet_recommendations': isArabic
+            ? [
+                'تجنب الأطعمة الحارة والدسمة والحامضية.',
+                'تناول وجبات صغيرة ومتفرقة.',
+                'لا تستلقي مباشرة بعد الأكل.',
+              ]
+            : [
+                'Avoid spicy, acidic, and fatty foods.',
+                'Eat smaller meals.',
+                'Do not lie down immediately after eating.',
+              ],
+        'activity_recommendations': isArabic
+            ? ['امشِ بعد الوجبات.', 'ارفع الرأس قليلاً أثناء النوم.']
+            : ['Walk after meals.', 'Sleep with the head slightly elevated.'],
+        'alert': isArabic
+            ? 'إذا تكررت الأعراض بشكل مستمر فاطلب تقييماً طبياً.'
+            : 'If symptoms happen frequently, seek medical evaluation.',
+      };
+    }
+
+    return {
+      'disease': isArabic ? 'حالة عامة تحتاج متابعة' : 'General Health Concern',
+      'confidence': 0.76,
+      'top_symptoms': selectedList.take(5).toList(),
+      'risk': 'Medium',
+      'diet_recommendations': isArabic
+          ? [
+              'حافظ على غذاء متوازن.',
+              'اشرب كمية كافية من الماء.',
+              'قلل من الأطعمة المصنعة.',
+            ]
+          : [
+              'Maintain a balanced diet.',
+              'Drink enough water.',
+              'Reduce processed food intake.',
+            ],
+      'activity_recommendations': isArabic
+          ? ['امشِ 30 دقيقة يومياً.', 'احرص على النوم والراحة الكافية.']
+          : ['Walk 30 minutes daily.', 'Get enough sleep and rest.'],
+      'alert': isArabic
+          ? 'إذا استمرت الأعراض أو ساءت، راجع الطبيب.'
+          : 'If symptoms persist or worsen, consult a doctor.',
+    };
+  }
+
+  Future<void> analyzeSymptoms() async {
+    if (selected.isEmpty) return;
+
+    setState(() => isLoading = true);
+    try {
+      final result = await mockAnalyzeSymptoms();
+      if (!mounted) return;
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ResultPage(
+            result: result,
+            selectedSymptoms: selected.toList(),
+            isArabic: isArabic,
+          ),
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final filtered = filteredSymptoms;
+
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF0B1220), Color(0xFF0D1528), Color(0xFF0B1220)],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(18, 18, 18, 120),
+                  children: [
+                    _buildHeroHeader(),
+                    const SizedBox(height: 18),
+                    _buildSearchField(),
+                    const SizedBox(height: 16),
+                    _buildSectionLabel(isArabic ? 'التصنيفات' : 'Categories'),
+                    const SizedBox(height: 10),
+                    _buildCategoryRow(),
+                    if (selected.isNotEmpty) ...[
+                      const SizedBox(height: 16),
+                      _buildSelectedBanner(),
+                    ],
+                    const SizedBox(height: 18),
+                    _buildSectionLabel(isArabic ? 'الأعراض' : 'Symptoms'),
+                    const SizedBox(height: 10),
+                    if (filtered.isEmpty)
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 28),
+                        decoration: BoxDecoration(
+                          color: AppPalette.card,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: AppPalette.border),
+                        ),
+                        child: Center(
+                          child: Text(
+                            isArabic
+                                ? 'لا توجد نتائج مطابقة'
+                                : 'No matching symptoms found',
+                            style: const TextStyle(color: AppPalette.subtext),
+                          ),
+                        ),
+                      )
+                    else
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: filtered.map(_buildSymptomChip).toList(),
+                      ),
+                  ],
+                ),
+              ),
+              _buildBottomBar(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeroHeader() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppPalette.border),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF15233D), Color(0xFF10192D)],
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x22000000),
+            blurRadius: 18,
+            offset: Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: isArabic
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  gradient: const LinearGradient(
+                    colors: [AppPalette.green, Color(0xFF146356)],
+                  ),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.favorite_rounded,
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              OutlinedButton.icon(
+                onPressed: () => setState(() => isArabic = !isArabic),
+                icon: const Icon(Icons.language, size: 18),
+                label: Text(isArabic ? 'English' : 'العربية'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppPalette.text,
+                  side: const BorderSide(color: AppPalette.border),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Text(
+            appTitle,
+            textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w800,
+              color: AppPalette.text,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            appSubtitle,
+            textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppPalette.subtext,
+              height: 1.6,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFF0D1526),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFF1E2B42)),
+            ),
+            child: Text(
+              isArabic
+                  ? 'اختر الأعراض التي تشعر بها ثم ابدأ التحليل للحصول على نتيجة تجريبية وتوصيات صحية مناسبة.'
+                  : 'Select the symptoms you have, then start the analysis to get a demo result and helpful health recommendations.',
+              textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+              style: const TextStyle(color: AppPalette.text, height: 1.7),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionLabel(String text) {
+    return Text(
+      text,
+      textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+      style: const TextStyle(
+        color: AppPalette.subtext,
+        fontSize: 13,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.3,
+      ),
+    );
+  }
+
+  Widget _buildSearchField() {
+    return TextField(
+      controller: searchController,
+      onChanged: (_) => setState(() {}),
+      style: const TextStyle(color: AppPalette.text),
+      textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+      decoration: InputDecoration(
+        hintText: isArabic ? 'ابحث عن عَرَض...' : 'Search for a symptom...',
+        hintStyle: const TextStyle(color: AppPalette.subtext),
+        prefixIcon: const Icon(Icons.search_rounded, color: AppPalette.subtext),
+        suffixIcon: searchController.text.isNotEmpty
+            ? IconButton(
+                onPressed: () {
+                  searchController.clear();
+                  setState(() {});
+                },
+                icon: const Icon(
+                  Icons.close_rounded,
+                  color: AppPalette.subtext,
+                ),
+              )
+            : null,
+        filled: true,
+        fillColor: AppPalette.card,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 18,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(18),
+          borderSide: const BorderSide(color: AppPalette.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(18),
+          borderSide: const BorderSide(color: AppPalette.green, width: 1.3),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryRow() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: categories.map((category) {
+          final isActive = activeCategory == category.id;
+          return Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              child: ChoiceChip(
+                label: Text(isArabic ? category.ar : category.en),
+                selected: isActive,
+                onSelected: (_) => setState(() => activeCategory = category.id),
+                labelStyle: TextStyle(
+                  color: isActive ? Colors.white : AppPalette.subtext,
+                  fontWeight: FontWeight.w700,
+                ),
+                backgroundColor: AppPalette.card,
+                selectedColor: AppPalette.green,
+                side: BorderSide(
+                  color: isActive ? AppPalette.green : AppPalette.border,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 12,
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildSelectedBanner() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: const Color(0xFF10281F),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFF245B49)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 34,
+            height: 34,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: AppPalette.green,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              '${selected.length}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              isArabic
+                  ? 'تم اختيار ${selected.length} عرض للتحليل'
+                  : '${selected.length} symptom(s) selected for analysis',
+              textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+              style: const TextStyle(
+                color: AppPalette.greenSoft,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () => setState(selected.clear),
+            child: Text(
+              isArabic ? 'مسح الكل' : 'Clear all',
+              style: const TextStyle(color: AppPalette.text),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSymptomChip(SymptomItem symptom) {
+    final bool isSelected = selected.contains(symptom.keyName);
+    final label = isArabic ? symptom.ar : symptom.en;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (isSelected) {
+            selected.remove(symptom.keyName);
+          } else {
+            selected.add(symptom.keyName);
+          }
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        constraints: const BoxConstraints(minWidth: 120),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFF143126) : AppPalette.card,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: isSelected ? AppPalette.green : AppPalette.border,
+            width: isSelected ? 1.4 : 1,
+          ),
+          boxShadow: isSelected
+              ? const [
+                  BoxShadow(
+                    color: Color(0x221F8A70),
+                    blurRadius: 16,
+                    offset: Offset(0, 8),
+                  ),
+                ]
+              : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+                style: TextStyle(
+                  color: isSelected ? Colors.white : AppPalette.text,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  height: 1.4,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                color: isSelected ? AppPalette.green : AppPalette.card2,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: isSelected ? AppPalette.green : AppPalette.border,
+                ),
+              ),
+              child: Icon(
+                isSelected ? Icons.check_rounded : Icons.add_rounded,
+                size: 16,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomBar() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(18, 14, 18, 20),
+      decoration: const BoxDecoration(
+        color: Color(0xCC0B1220),
+        border: Border(top: BorderSide(color: AppPalette.border)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              isArabic
+                  ? 'هذا النموذج تجريبي ولأغراض العرض فقط.'
+                  : 'This is a demo version for presentation purposes only.',
+              textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppPalette.subtext,
+                height: 1.5,
+              ),
+            ),
+          ),
+          const SizedBox(width: 14),
+          ElevatedButton.icon(
+            onPressed: selected.isEmpty || isLoading ? null : analyzeSymptoms,
+            icon: isLoading
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Icon(Icons.analytics_rounded),
+            label: Text(
+              isLoading
+                  ? (isArabic ? 'جاري التحليل...' : 'Analyzing...')
+                  : (isArabic ? 'ابدأ التحليل' : 'Start analysis'),
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppPalette.green,
+              foregroundColor: Colors.white,
+              disabledBackgroundColor: AppPalette.card2,
+              disabledForegroundColor: AppPalette.subtext,
+              elevation: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ResultPage extends StatefulWidget {
+  final Map<String, dynamic> result;
+  final List<String> selectedSymptoms;
+  final bool isArabic;
+
+  const ResultPage({
+    super.key,
+    required this.result,
+    required this.selectedSymptoms,
+    required this.isArabic,
+  });
+
+  @override
+  State<ResultPage> createState() => _ResultPageState();
+}
+
+class _ResultPageState extends State<ResultPage> {
+  late bool isArabic;
+
+  @override
+  void initState() {
+    super.initState();
+    isArabic = widget.isArabic;
+  }
+
+  Map<String, dynamic> get normalizedResult {
+    return {
+      'disease':
+          widget.result['disease'] ?? (isArabic ? 'غير معروف' : 'Unknown'),
+      'confidence': (widget.result['confidence'] ?? 0.0).toDouble(),
+      'top_symptoms':
+          widget.result['top_symptoms'] ??
+          widget.selectedSymptoms.take(5).toList(),
+      'risk': widget.result['risk'] ?? 'Medium',
+      'diet_recommendations': widget.result['diet_recommendations'] ?? [],
+      'activity_recommendations':
+          widget.result['activity_recommendations'] ?? [],
+      'alert': widget.result['alert'] ?? '',
+    };
+  }
+
+  String localizeSymptom(String key) {
+    final symptom = symptoms
+        .where((s) => s.keyName == key)
+        .cast<SymptomItem?>()
+        .firstWhere((s) => s != null, orElse: () => null);
+    if (symptom == null) return key.replaceAll('_', ' ');
+    return isArabic ? symptom.ar : symptom.en;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final result = normalizedResult;
+    final String disease = result['disease'];
+    final double confidence = result['confidence'];
+    final List<dynamic> topSymptoms = result['top_symptoms'];
+    final String risk = result['risk'];
+    final List<dynamic> diet = result['diet_recommendations'];
+    final List<dynamic> activity = result['activity_recommendations'];
+    final String alert = result['alert'];
+    final riskStyle = getRiskStyle(risk);
+
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF0B1220), Color(0xFF0D1528), Color(0xFF0B1220)],
+          ),
+        ),
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(18, 18, 18, 28),
+            children: [
+              Row(
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.arrow_back_rounded, size: 18),
+                    label: Text(isArabic ? 'رجوع' : 'Back'),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: AppPalette.border),
+                      foregroundColor: AppPalette.text,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    isArabic ? 'النتيجة' : 'Result',
+                    style: const TextStyle(
+                      color: AppPalette.text,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                    ),
+                  ),
+                  const Spacer(),
+                  OutlinedButton.icon(
+                    onPressed: () => setState(() => isArabic = !isArabic),
+                    icon: const Icon(Icons.language, size: 18),
+                    label: Text(isArabic ? 'English' : 'العربية'),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: AppPalette.border),
+                      foregroundColor: AppPalette.text,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.all(22),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: AppPalette.border),
+                  color: AppPalette.card,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x22000000),
+                      blurRadius: 18,
+                      offset: Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                isArabic
+                                    ? 'التشخيص المقترح'
+                                    : 'Suggested diagnosis',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppPalette.subtext,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                disease,
+                                style: const TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppPalette.text,
+                                  height: 1.2,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: riskStyle['bg'],
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: riskStyle['border']),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                riskStyle['icon'],
+                                style: TextStyle(color: riskStyle['color']),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                isArabic
+                                    ? riskStyle['labelAr']
+                                    : riskStyle['labelEn'],
+                                style: TextStyle(
+                                  color: riskStyle['accent'],
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 22),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          isArabic ? 'نسبة الثقة' : 'Confidence score',
+                          style: const TextStyle(
+                            color: AppPalette.subtext,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          '${(confidence * 100).round()}%',
+                          style: const TextStyle(
+                            color: AppPalette.text,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(99),
+                      child: LinearProgressIndicator(
+                        value: confidence.clamp(0.0, 1.0),
+                        minHeight: 8,
+                        backgroundColor: AppPalette.card2,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          riskStyle['color'],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        color: riskStyle['bg'],
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: riskStyle['border']),
+                      ),
+                      child: Text(
+                        isArabic
+                            ? riskStyle['adviceAr']
+                            : riskStyle['adviceEn'],
+                        style: TextStyle(
+                          color: riskStyle['accent'],
+                          height: 1.6,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 18),
+              _sectionTitle(
+                isArabic
+                    ? 'الأعراض المختارة المؤثرة'
+                    : 'Selected symptoms considered',
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: List.generate(topSymptoms.length, (index) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppPalette.card,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppPalette.border),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 22,
+                          height: 22,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: AppPalette.green,
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          child: Text(
+                            '${index + 1}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          localizeSymptom(topSymptoms[index].toString()),
+                          style: const TextStyle(
+                            color: AppPalette.text,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+              const SizedBox(height: 18),
+              _sectionTitle(
+                isArabic ? 'التوصيات الغذائية' : 'Diet recommendations',
+              ),
+              const SizedBox(height: 10),
+              _recommendationCard(
+                items: diet.map((e) => e.toString()).toList(),
+                dotColor: AppPalette.blue,
+              ),
+              const SizedBox(height: 18),
+              _sectionTitle(isArabic ? 'النشاط المقترح' : 'Suggested activity'),
+              const SizedBox(height: 10),
+              _recommendationCard(
+                items: activity.map((e) => e.toString()).toList(),
+                dotColor: AppPalette.greenSoft,
+              ),
+              const SizedBox(height: 18),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppPalette.card,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: riskStyle['border']),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '⚠',
+                      style: TextStyle(fontSize: 18, color: riskStyle['color']),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        alert,
+                        style: const TextStyle(
+                          color: AppPalette.text,
+                          height: 1.6,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 18),
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: AppPalette.card,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppPalette.border),
+                ),
+                child: Text(
+                  isArabic
+                      ? 'هذه النتيجة تجريبية ومخصصة للعرض فقط، وليست بديلاً عن التقييم الطبي الحقيقي.'
+                      : 'This result is for demo purposes only and does not replace a real medical evaluation.',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: AppPalette.subtext,
+                    height: 1.7,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _sectionTitle(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        color: AppPalette.subtext,
+        fontSize: 13,
+        fontWeight: FontWeight.w700,
+      ),
+    );
+  }
+
+  Widget _recommendationCard({
+    required List<String> items,
+    required Color dotColor,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppPalette.card,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: AppPalette.border),
+      ),
+      child: Column(
+        children: items.map((item) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  margin: const EdgeInsets.only(top: 7),
+                  decoration: BoxDecoration(
+                    color: dotColor,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    item,
+                    style: const TextStyle(color: AppPalette.text, height: 1.6),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Map<String, dynamic> getRiskStyle(String risk) {
+    switch (risk.toLowerCase()) {
+      case 'high':
+        return {
+          'labelAr': 'خطر عالٍ',
+          'labelEn': 'High risk',
+          'color': const Color(0xFFEF4444),
+          'bg': const Color(0xFF2A1416),
+          'border': const Color(0xFF7F1D1D),
+          'accent': const Color(0xFFFCA5A5),
+          'icon': '▲',
+          'adviceAr': 'يوصى بمتابعة الحالة طبياً في أقرب وقت.',
+          'adviceEn': 'Medical follow-up is recommended as soon as possible.',
+        };
+      case 'low':
+        return {
+          'labelAr': 'خطر منخفض',
+          'labelEn': 'Low risk',
+          'color': const Color(0xFF22C55E),
+          'bg': const Color(0xFF11251A),
+          'border': const Color(0xFF14532D),
+          'accent': const Color(0xFF86EFAC),
+          'icon': '●',
+          'adviceAr': 'يمكن الاكتفاء بالمتابعة المنزلية والراحة غالباً.',
+          'adviceEn':
+              'Home monitoring and rest may be sufficient in most cases.',
+        };
+      default:
+        return {
+          'labelAr': 'خطر متوسط',
+          'labelEn': 'Medium risk',
+          'color': const Color(0xFFF59E0B),
+          'bg': const Color(0xFF2E2411),
+          'border': const Color(0xFF8A5A12),
+          'accent': const Color(0xFFFCD34D),
+          'icon': '◆',
+          'adviceAr': 'من الأفضل متابعة الأعراض واستشارة مختص إذا لزم الأمر.',
+          'adviceEn':
+              'It is better to monitor symptoms and consult a specialist if needed.',
+        };
+    }
+  }
+}
