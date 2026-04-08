@@ -86,7 +86,13 @@ ElevatedButton(
   child: Text("Start Analysis"),
 )
 ```
+#LLM Chat Assistant
 
+Integrated with Gemini API
+Provides interactive health guidance
+Answers user questions about symptoms
+Generates personalized recommendations (diet, exercise, lifestyle)
+Enhances user experience with conversational support
 Frontend file:
 
  frontend.dart  
